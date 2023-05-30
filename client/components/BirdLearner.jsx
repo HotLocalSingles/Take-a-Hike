@@ -4,6 +4,7 @@ import axios from "axios";
 const BirdLearner = ({ birdList }) => {
   const [randomBirds, setRandomBirds] = useState([]);
   const [audioPlayer, setAudioPlayer] = useState(null);
+  const [chosenBird, setChosenBird] = useState(null);
 
   useEffect(() => {
     if (birdList.length > 0) {
@@ -11,8 +12,9 @@ const BirdLearner = ({ birdList }) => {
       setRandomBirds(birds);
 
       if (birds.length > 0) {
-        const chosenBird = birds[Math.floor(Math.random() * birds.length)];
-        fetchBirdSong(chosenBird.commonName);
+        const chosen = birds[Math.floor(Math.random() * birds.length)];
+        setChosenBird(chosen);
+        fetchBirdSong(chosen.commonName);
       }
     }
   }, [birdList]);
@@ -52,7 +54,7 @@ const BirdLearner = ({ birdList }) => {
   };
 
   const handleBirdChoice = (bird) => {
-    const isCorrectBird = randomBirds.some((randomBird) => randomBird.commonName === bird.commonName);
+    const isCorrectBird = chosenBird && chosenBird.commonName === bird.commonName;
     alert(isCorrectBird ? "Correct bird!" : "Wrong bird!");
   };
 
