@@ -17,6 +17,7 @@ const session = require('express-session');
 require('./middleware/auth.js');
 const { cloudinary } = require('./utils/coudinary');
 const { Users } = require('./database/models/users');
+const { Trails } = require('./database/models/trails.js');
 
 // // Import DB
 // const { db } = require('./database/index.js')
@@ -83,11 +84,11 @@ app.get("/profile",(req, res) => {
 
 ////////////////////////////////////////EXTERNAL TRAIL API ROUTE/////////////////////////////////////////
 
-//GET req for trail data by latitude/longitude
+//GET req for trail data by latitude/longitude/name
 app.get("/api/trailslist", (req, res) => {
   axios
     .get(
-      `https://trailapi-trailapi.p.rapidapi.com/trails/explore/?lat=${req.query.lat}&lon=${req.query.lon}&radius=100`,
+      `https://trailapi-trailapi.p.rapidapi.com/trails/explore/?lat=${req.query.lat}&lon=${req.query.lon}&name=${req.query.name}&radius=100`,
       {
         headers: {
           "X-RapidAPI-Host": "trailapi-trailapi.p.rapidapi.com",
@@ -104,6 +105,18 @@ app.get("/api/trailslist", (req, res) => {
       console.error("ERROR: ", err);
       res.sendStatus(404);
     });
+});
+
+app.get("/api/trailnames", (req, res) => {
+  Trails.findAll({})
+  .then(names => {
+    console.log(names);
+    res.json(names);
+  })
+  .catch(err => {
+    console.error("ERROR: ", err);
+    res.status(404).send('Error fetching trails');
+  });
 });
 
 //////////////////////////////////////// Cloudinary routes //////////////////////////////////////
