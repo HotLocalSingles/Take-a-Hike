@@ -4,7 +4,7 @@
   "description": "Trail hiking app for Louisiana",
   "main": "webpack.config.js",
   "scripts": {
-    "dev": "webpack",
+    "dev": "webpack --watch",
     "start": "nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node server/database/seed.js"
