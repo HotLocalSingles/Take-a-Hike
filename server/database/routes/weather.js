@@ -6,7 +6,6 @@ locationDataRouter.route('/').get((req, res) => {
   Trails.find({})
     .then(trails => {
       res.json(trails);
-      console.log(trails);
     })
     .catch(err =>
         res.status(404).send('Could not fetch location data from database' + err)

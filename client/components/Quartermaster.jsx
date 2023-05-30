@@ -14,11 +14,11 @@ const Quartermaster = () => {
   const [bool, setBool] = useState(false);
 
   useEffect(() => {
-    console.log("LINE 78 data");
+    // console.log("LINE 78 data");
     axios
       .get("/api/packingLists")
       .then((response) => {
-        console.log("ALL LISTS FROM DATABASE LINE 79 ||", response.data);
+        // console.log("ALL LISTS FROM DATABASE LINE 79 ||", response.data);
         setPackingListsNames([...response.data]);
       })
       .catch((err) => {
@@ -56,26 +56,26 @@ const Quartermaster = () => {
         packingListDescription: packingListDescription,
       })
       .then((data) => {
-        console.log("Line 61 => this code block was reached", data);
+        // console.log("Line 61 => this code block was reached", data);
         setListNameAndPankListDescription((state) => {
           return { ...state, listName: "", packingListDescription: "" };
         });
       })
       .catch((err) => {
-        console.log("Line 64 => this code block was reached", err);
+        // console.log("Line 64 => this code block was reached", err);
       });
     alert("Packing list saved successfully!");
   };
-  console.log(packingListsNames);
+  // console.log(packingListsNames);
   const { packingListDescription, listName } = listNameAndPnkListDescription;
 
   const onClickPackingListName = () => {
-    console.log("CLicked");
+    // console.log("CLicked");
     axios.get("/api/packingLists", { params: {} });
   };
   const handleState = () => {
     setPackingListsNames(packingListsNames);
-    console.log("76, packinglists", packingListsNames);
+    // console.log("76, packinglists", packingListsNames);
   };
 
   return (
@@ -171,7 +171,7 @@ export default Quartermaster;
 //   axios
 //     .get("/api/packingLists")
 //     .then((response) => {
-//       //console.log("ALL LISTS FROM DATABASE LINE 59 ||", response.data);
+//console.log("ALL LISTS FROM DATABASE LINE 59 ||", response.data);
 //       setPackingList((state) => {
 //         return {
 //           ...state,

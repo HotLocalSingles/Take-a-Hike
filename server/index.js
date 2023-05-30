@@ -65,7 +65,7 @@ app.get(
     successRedirect: successLoginUrl,
   }),
   (req, res) => {
-    console.log('User: ', req.user);
+    // console.log('User: ', req.user);
     res.send('thank you for signing in!');
   }
 );
@@ -73,7 +73,7 @@ app.get(
 app.get("/profile",(req, res) => {
   Users.findOne()
     .then((data) => {
-      console.log('data', data);
+      // console.log('data', data);
       res.send(data).status(200);
     })
     .catch((err) => {
@@ -110,7 +110,6 @@ app.get("/api/trailslist", (req, res) => {
 app.get("/api/trailnames", (req, res) => {
   Trails.findAll({})
   .then(names => {
-    console.log(names);
     res.json(names);
   })
   .catch(err => {
@@ -119,11 +118,25 @@ app.get("/api/trailnames", (req, res) => {
   });
 });
 
+app.get("/api/weather", (req, res) => {
+  axios
+    .get(
+      `https://api.weather.gov/points/${req.query.latitude},${req.query.longitude}`)
+    .then((response) => {
+      console.log('api call to weather worked');
+      res.json(response.data);
+    })
+    .catch((err) => {
+      console.error("ERROR: ", err);
+      res.sendStatus(404);
+    });
+});
+
 //////////////////////////////////////// Cloudinary routes //////////////////////////////////////
 
 // get request to get all images (this will later be trail specific)
 app.post("/api/images", async (req, res) => {
-  console.log(`server index.js || LINE 70`, req.body);
+  // console.log(`server index.js || LINE 70`, req.body);
   // NEED TO CHANGE ENDPOINT TO INCLUDE TRAIL SPECIFIC PARAM SO PHOTOS CAN BE UPLOADED + RENDERED PROPERLY
 
   // Can create new folder with upload from TrailProfile component. Need to modify get request to filter based on folder param (which will be equal to the trail name)
@@ -147,13 +160,13 @@ app.post("/api/images", async (req, res) => {
  * Routes for packing list
  */
 app.post("/api/packingLists", (req, res) => {
-  console.log(req.body, "Server index.js LINE 55");
+  // console.log(req.body, "Server index.js LINE 55");
   PackingLists.create({
     listName: req.body.listName,
     packingListDescription: req.body.packingListDescription,
   })
     .then((data) => {
-      console.log("LINE 63", data.dataValues);
+      // console.log("LINE 63", data.dataValues);
       res.sendStatus(201);
     })
     .catch((err) => {
@@ -165,10 +178,10 @@ app.post("/api/packingLists", (req, res) => {
  * Routes for packing list GET ALL LISTS
  */
 app.get("/api/packingLists", (req, res) => {
-  console.log("Server index.js LINE 166", req.body);
+  // console.log("Server index.js LINE 166", req.body);
   PackingLists.findAll()
     .then((data) => {
-      console.log("LINE 169", data);
+      // console.log("LINE 169", data);
       res.status(200).send(data);
     })
     .catch((err) => {
@@ -181,13 +194,13 @@ app.get("/api/packingLists", (req, res) => {
  * post request to the packingListItems
  */
 app.post('/api/packingListItems', (req, res) => {
-  console.log(
-    'Is this being reached? LINE 103 SERVER.index.js || REQ.BODY \n',
-    req.body
-  );
+  // console.log(
+  //   'Is this being reached? LINE 103 SERVER.index.js || REQ.BODY \n',
+  //   req.body
+  // );
   PackingListItems.create(listItem)
     .then((data) => {
-      console.log('from lINE 106 INDEX.js || DATA \n', data);
+      // console.log('from lINE 106 INDEX.js || DATA \n', data);
       res.sendStatus(200);
     })
     .catch((err) => {
@@ -258,7 +271,7 @@ app.post('/api/birdsightings', (req, res) => {
     user_id: req.body.user_id,
   })
     .then((data) => {
-      console.log('LINE 220', data);
+      // console.log('LINE 220', data);
       res.sendStatus(201);
     })
     .catch((err) => {
@@ -275,7 +288,7 @@ app.delete('/api/birdsightings', (req, res) => {
     user_id: req.body.user_id,
   })
     .then((data) => {
-      console.log('LINE 220', data);
+      // console.log('LINE 220', data);
       res.sendStatus(201);
     })
     .catch((err) => {
