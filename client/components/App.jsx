@@ -12,6 +12,7 @@ import UserProfile from './UserProfile.jsx';
 import BirdingCheckList from './BirdingCheckList.jsx';
 import PackingList from './PackingList.jsx';
 import Login from './Login.jsx';
+import Story from './Story.jsx';
 
 const App = () => {
   const [trailList, setTrailList] = useState([]);
@@ -62,6 +63,7 @@ const App = () => {
         <Link to='/quartermaster'>Quartermaster</Link> |{' '}
         {/* <Link to="/packinglist">Packing List</Link> |{" "} */}
         <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
+        <Link to='/stories'>Ghost Stories</Link> |{' '}
         <Link to='/profile'>User Profile</Link> |{' '}
       </nav>
       {/* <Route path="login" element={<Login />} /> */}
@@ -83,6 +85,7 @@ const App = () => {
         <Route path='quartermaster' element={<Quartermaster />} />
         {/* <Route path="packinglist/:id" element={<PackingList />} /> */}
         <Route path='birdingchecklist' element={<BirdingCheckList />} />
+        <Route path='stories' element={<Story />} />
         <Route path='profile' element={<UserProfile />} />
       </Routes>
       <Outlet />
