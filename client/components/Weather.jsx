@@ -27,7 +27,6 @@ const Weather = () => {
       const fetchLocations = async () => {
         try {
           const response = await axios.get('/api/trailnames');
-          console.log('hey');
           setLocations(response.data);
         } catch (error) {
           console.error('Client failed to fetch locations', error);
@@ -51,11 +50,9 @@ const Weather = () => {
       const fetchWeather = async () => {
         if (location) {
           try {
-            const response = await axios.get('/api/weather', {
-              params: { latitude: location.latitude, longitude: location.longitude },
-            });
-            console.log('axios get weather', response.data);
+            const response = await axios.get(`https://api.weather.gov/points/${location.lat},${location.lon}`);
             setWeather(response.data);
+            console.log('axios get weather', response.data);
           } catch (error) {
             console.error('Failed to fetch weather data', error);
           }
