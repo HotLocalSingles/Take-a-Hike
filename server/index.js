@@ -10,6 +10,7 @@ const { BirdList } = require("./database/models/birdList.js")
 const { BirdSightings } = require("./database/models/birdSightings.js")
 const { PackingLists } = require("./database/models/packingLists");
 const { PackingListItems } = require("./database/models/packingListItems");
+const storyRouter = require("./database/routes/storyRouter.js");
 
 // const { default: PackingList } = require("../client/components/PackingList");
 const router = express.Router();
@@ -270,6 +271,9 @@ app.delete('/api/birdsightings', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+// LEGACY ROUTES
+app.use('/api/stories', storyRouter);
 
 // launches the server from localhost on port 5555
 app.listen(PORT, () => {
