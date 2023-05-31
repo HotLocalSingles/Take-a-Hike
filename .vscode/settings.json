@@ -15,6 +15,9 @@
     "trailapi",
     "trailnames",
     "trailprofile",
-    "trailslist"
+    "trailslist",
+    "weathercode",
+    "winddirection",
+    "windspeed"
   ]
 }

@@ -118,19 +118,19 @@ app.get("/api/trailnames", (req, res) => {
   });
 });
 
-app.get("/api/weather", (req, res) => {
-  axios
-    .get(
-      `https://api.weather.gov/points/${req.query.latitude},${req.query.longitude}`)
-    .then((response) => {
-      console.log('api call to weather worked');
-      res.json(response.data);
-    })
-    .catch((err) => {
-      console.error("ERROR: ", err);
-      res.sendStatus(404);
-    });
-});
+// app.get("/api/weather", (req, res) => {
+//   axios
+//     .get(
+//       `https://api.weather.gov/points/${req.query.latitude},${req.query.longitude}`)
+//     .then((response) => {
+//       console.log('api call to weather worked');
+//       res.json(response.data);
+//     })
+//     .catch((err) => {
+//       console.error("ERROR: ", err);
+//       res.sendStatus(404);
+//     });
+// });
 
 //////////////////////////////////////// Cloudinary routes //////////////////////////////////////
 
