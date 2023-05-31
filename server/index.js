@@ -71,9 +71,9 @@ app.get(
 );
 
 app.get("/profile",(req, res) => {
-  Users.findOne()
+  Users.findAll()
     .then((data) => {
-      // console.log('data', data);
+      console.log('users', data);
       res.send(data).status(200);
     })
     .catch((err) => {
@@ -117,20 +117,6 @@ app.get("/api/trailnames", (req, res) => {
     res.status(404).send('Error fetching trails');
   });
 });
-
-// app.get("/api/weather", (req, res) => {
-//   axios
-//     .get(
-//       `https://api.weather.gov/points/${req.query.latitude},${req.query.longitude}`)
-//     .then((response) => {
-//       console.log('api call to weather worked');
-//       res.json(response.data);
-//     })
-//     .catch((err) => {
-//       console.error("ERROR: ", err);
-//       res.sendStatus(404);
-//     });
-// });
 
 //////////////////////////////////////// Cloudinary routes //////////////////////////////////////
 

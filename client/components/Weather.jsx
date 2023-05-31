@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 
 /*
 The weather component has 3 parts: The location, live weather details
@@ -25,7 +24,7 @@ const Weather = () => {
     2: 'clear partly cloudy',
     3: 'clear partly cloudy',
     45: 'fog',
-    48: 'fog',
+    48: 'depositing rime fog',
     51: 'drizzle light',
     53: 'drizzle moderate',
     55: 'drizzle heavy',
@@ -122,30 +121,10 @@ const windDirectionFunction = (directionNumber) => {
       }
     };
 
+    //fetch weather info only when currentLocation changes
   useEffect(() => {
     fetchWeather(currentLocation);
   }, [currentLocation]);
-
-  //the weather warnings return any weather alerts from the currentLocation
-  //it will make a call to an external api whenever the currentLocation changes
-
-    // const fetchWarnings = async () => {
-    //   if (location) {
-    //     try {
-    //       const response = await axios.get('/api/weather', {
-    //         params: { latitude: location.latitude, longitude: location.longitude },
-    //       });
-    //       console.log('axios get warnings', response.data);
-    //     } catch (error) {
-    //       console.error('Failed to fetch warnings', error);
-    //     }
-    //   }
-    //   console.log('hey');
-    // };
-    // useEffect(() => {
-    //   fetchWarnings();
-    // }, [currentLocation])
-
 
   return(
     <Container
