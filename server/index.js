@@ -5,6 +5,7 @@ const { query } = require('express');
 const express = require('express');
 const path = require('path');
 const passport = require('passport');
+require('dotenv').config();
 
 const { BirdList } = require("./database/models/birdList.js")
 const { BirdSightings } = require("./database/models/birdSightings.js")
@@ -20,8 +21,11 @@ require('./middleware/auth.js');
 const { cloudinary } = require('./utils/coudinary');
 const { Users } = require('./database/models/users');
 
+// // Import session storage
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
 // // Import DB
-// const { db } = require('./database/index.js')
+const { db } = require('./database/index.js')
 
 // // Import Routes
 // const birdListRouter = require('./database/routes/birdListRouter.js')
@@ -33,21 +37,31 @@ const distPath = path.resolve(__dirname, "..", "dist"); //serves the hmtl file o
 // Create backend API
 const app = express();
 
-// Use Middleware
+///////////////////////////////////////// Use Middleware ////////////////////////////
+
 app.use(express.json()); // handles parsing content in the req.body from post/update requests
 app.use(express.static(distPath)); // Statically serves up client directory
 app.use(express.urlencoded({ extended: true })); // Parses url (allows arrays and objects)
+
+// session storage declaration
+const sessionStore = new SequelizeStore({
+  db: db,
+  modelKey: 'sid', // sid = Session ID, stores this as the key so it's quick to grab the session data
+  expiration: 24 * 60 * 60 * 1000, // Set the session expiration time to 24 hours, removes it from the database so session data stays clean
+});
+
+// defining the session options for the middleware
 app.use(
   session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true },
+    secret: [process.env.SESSION_ID_COOKIE], // needs to be in an .env file and imported
+    resave: false, // does not save session if it hasn't been modified
+    saveUninitialized: false, // session only saves if it has been modified
+    store: sessionStore, // session is stored using the connect-session-sequelize package
   })
 );
-app.use(passport.initialize());
-// Create API Routes
-app.use(passport.session());
+app.use(passport.initialize()); //passport is used on every call
+app.use(passport.session());  //passport uses express-session
+
 
 
 app.use('/api/learnedBirds', learnedBirdsRouter);
@@ -73,6 +87,32 @@ app.get(
     res.send('thank you for signing in!');
   }
 );
+
+app.post('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/#/login');
+});
+
+
+// // Middleware to check if user is logged in on every request
+const isAuthenticated = (req, res, next) => {
+  if(req.user) {
+    console.log('User authenticated', req.user)
+    return next();
+  }
+  else {
+    return res.status(401).send('User not authenticated');
+  }
+}
+
+app.use(isAuthenticated) // using the function above in middleware
+
+///////////////////////////////////////////////////////////////////////////
+
+
+// // Import Trading Routes
+const trading = require('./database/routes/tradingRouter.js');
+app.use('/trading', trading);
 
 app.get("/profile",(req, res) => {
   Users.findOne()
