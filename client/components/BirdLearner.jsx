@@ -18,6 +18,7 @@ const BirdLearner = ({ birdList }) => {
       }
     }
   }, [birdList]);
+  
 
   // gets 3 random birds
   const getBirds = (birdList) => {
@@ -56,6 +57,16 @@ const BirdLearner = ({ birdList }) => {
   const handleBirdChoice = (bird) => {
     const isCorrectBird = chosenBird && chosenBird.commonName === bird.commonName;
     alert(isCorrectBird ? "Correct bird!" : "Wrong bird!");
+
+    if (isCorrectBird) {
+      const newRandomBirds = getBirds(birdList);
+      setRandomBirds(newRandomBirds);
+
+      const newChosenBird = newRandomBirds[Math.floor(Math.random() * newRandomBirds.length)];
+      setChosenBird(newChosenBird);
+      fetchBirdSong(newChosenBird.commonName);
+      // audioPlayer.pause();
+    }
   };
 
   return (
