@@ -14,6 +14,10 @@ import PackingList from './PackingList.jsx';
 import Login from './Login.jsx';
 import Story from './Story.jsx';
 
+import TradingMain from '../components/TradingPost/TradingMain.jsx';
+import TradingBoard from './TradingPost/TradingBoard.jsx';
+import TradingNewPost from './TradingPost/TradingNewPost.jsx';
+
 const App = () => {
   const [trailList, setTrailList] = useState([]);
 
@@ -65,8 +69,11 @@ const App = () => {
         <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
         <Link to='/stories'>Ghost Stories</Link> |{' '}
         <Link to='/profile'>User Profile</Link> |{' '}
+        <Link to='/quartermaster'>Quartermaster</Link> |{' '}
+        <Link to='/trailslist'>Trails List</Link> |{' '}
+        <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
+        <Link to='/tradingpost'>Trading Post</Link> {' '}
       </nav>
-      {/* <Route path="login" element={<Login />} /> */}
       <Routes>
         <Route
           path='trailslist'
@@ -83,10 +90,13 @@ const App = () => {
           element={<TrailProfile trailList={trailList} />}
         />
         <Route path='quartermaster' element={<Quartermaster />} />
-        {/* <Route path="packinglist/:id" element={<PackingList />} /> */}
         <Route path='birdingchecklist' element={<BirdingCheckList />} />
         <Route path='stories' element={<Story />} />
         <Route path='profile' element={<UserProfile />} />
+        <Route path='tradingpost' element={<TradingMain />} >
+          <Route path='tradingboard' element={<TradingBoard />}/>
+          <Route path='createtrade' element={<TradingNewPost />}/>
+        </Route>
       </Routes>
       <Outlet />
     </div>
