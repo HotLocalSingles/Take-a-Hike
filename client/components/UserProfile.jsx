@@ -17,25 +17,18 @@ const UserProfile = () => {
     });
   });
 
+
   return (
     <div className="profile-card">
       <h1>Welcome {profileName}</h1>
       <a href={picture}></a>
       <p>{email}</p>
+      <form action="/logout" method="POST">
+        <button type="submit">Logout</button>
+      </form>
     </div>
   );
 
-  // return (
-  //   <>
-  //     <h1 className="Header" alignment="center">
-  //       UserProfile
-  //     </h1>
-  //     <div>Username:</div>
-  //     {packingListNames.map((listName) => {
-  //       return <li>{listName}</li>;
-  //     })}
-  //   </>
-  // );
 };
 
 export default UserProfile;
