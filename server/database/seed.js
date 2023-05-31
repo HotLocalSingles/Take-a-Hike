@@ -10,6 +10,7 @@ const { async } = require("regenerator-runtime");
 const birdsOfLA = require("./data/eBirdData.js")
 const { BirdList } = require("./models/birdList.js")
 const { BirdSightings } = require("./models/birdSightings.js")
+const { Stories } = require('./models/stories.js');
 
 db.options.logging = false;
 
@@ -68,6 +69,13 @@ const seedSqlize = () => {
       console.log(
         "\x1b[36m",
         "\nDatabase (MySQL): 'Trails' table successfully created!"
+      )
+    )
+    .then(() => Stories.sync())
+    .then(() =>
+      console.log(
+        "\x1b[36m",
+        "\nDatabase (MySQL): 'Stories' table successfully created!"
       )
     )
 
