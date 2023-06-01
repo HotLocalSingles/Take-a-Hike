@@ -19,6 +19,7 @@ const Weather = () => {
   const [currentLocation, setCurrentLocation] = useState('');
   const [weather, setWeather] = useState({});
   const [view, setView] = useState('Daily');
+  let holderObj = {};
 
   const weatherCodeNumbers = {
     0: 'clear skies',
@@ -132,13 +133,56 @@ const windDirectionFunction = (directionNumber) => {
     fetchWeather(currentLocation);
   }, [currentLocation]);
 
+  //fetch 14 day weather data
+  const fetch14Weather = async (location) => {
+    if (location.name) {
+      try {
+        const response = await axios
+        .get(`https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&hourly=temperature_2m&forecast_days=14&timezone=auto`);
+        // console.log(response.data);
+        //we need to sort the data that is returned
+        const temp = response.data.hourly.temperature_2m;
+        const time = response.data.hourly.time;
+        let date_temp = [];
+        //loop over the time array and tie the temp index to the time index
+        for (let i = 0; i < time.length; i++) {
+          //put the indexes together
+          date_temp.push([time[i], temp[i]]);
+        }
+        // console.log('date_temp', date_temp)
+        //now we'll iterate over date_temp and sort the date/time values into one value
+        //that will represent the daily temperature
+
+        for (let j = 0; j < date_temp.length; j++) {
+          //each iteration slice the last 6 values from the index 0 string
+          let stringDate = date_temp[j][0].slice(0, -6);
+          if (holderObj[stringDate]) {
+            holderObj[stringDate] += date_temp[j][1];
+          } else {
+            holderObj[stringDate] = date_temp[j][1];
+          }
+        }
+        //we did it! We now have an obj sorted by date and with the values of the
+        //total temperatures for that day. The value at each property needs to be
+        //divided by 24 to obtain an average temperature for the day.
+        // console.log('holderObj', holderObj);
+      } catch (error) {
+        console.error('Failed to fetch 14 day weather data', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetch14Weather(currentLocation);
+  }, [currentLocation]);
+
   return(
     <Container
     sx={{
       border: '20px solid',
       borderImageSource: 'linear-gradient(to right, green, blue, purple)',
       borderImageSlice: '1',
-      height: '600px',
+      height: '650px',
       width: '500px',
       backgroundImage: 'url(https://thumbs.gfycat.com/AgedSingleBasil-size_restricted.gif)'
     }}>
@@ -173,27 +217,36 @@ const windDirectionFunction = (directionNumber) => {
         marginBottom: '20px',
         height: '350px',
         width: '400px',
-        backgroundColor: 'rgba(255, 255, 255, 0.75)'
+        backgroundColor: 'rgba(255, 255, 255, 0.75)',
+        overflow: 'auto'
         }}>
-        <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
-          Time: { weather.time }
-        </Typography>
-                <div style={{ height: '30px'}}></div>
+        { view === 'Daily'
+          ?
+          <>
         <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
           Temperature: { weather.temperature } C
         </Typography>
-                <div style={{ height: '30px'}}></div>
+                <div style={{ height: '50px'}}></div>
         <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
           Wind Direction: { windDirectionFunction(weather.winddirection) }
         </Typography>
-                <div style={{ height: '30px'}}></div>
+                <div style={{ height: '50px'}}></div>
         <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
           Wind Speed: { weather.windspeed }
         </Typography>
-                <div style={{ height: '30px'}}></div>
+                <div style={{ height: '50px'}}></div>
         <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
           Weather Code: { weather.weathercode }
         </Typography>
+        </>
+        :
+        <>
+        <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
+          {/* Extended Forecast information */}
+          Extended Information:
+        </Typography>
+        </>
+      }
       </Box>
       <Box
       sx={{

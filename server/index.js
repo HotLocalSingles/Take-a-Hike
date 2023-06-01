@@ -131,8 +131,7 @@ app.get("/api/trailslist", (req, res) => {
       {
         headers: {
           "X-RapidAPI-Host": "trailapi-trailapi.p.rapidapi.com",
-          "X-RapidAPI-Key":
-            "94ef3458famshe3f06f471ff63bfp18f37cjsndd230c1b21a3",
+          "X-RapidAPI-Key": process.env.X-RapidApi-Key,
         },
       }
     )
