@@ -5,7 +5,7 @@ import axios from "axios";
 
 // Import Components
 import BirdProfile from "./BirdProfile.jsx";
-
+import BirdLearner from "./BirdLearner.jsx";
 // Create Functional Component
 const BirdingCheckList = () => {
   const [birdSearch, setBirdSearch] = useState("");
@@ -49,6 +49,7 @@ const BirdingCheckList = () => {
   // Return Component Template
   return (
     <div className="section is-large">
+      <BirdLearner userId={userId} birdList={birdList}/>
       <h1 className="title" alignment="center">
         {userName}'s Birding Checklist
       </h1>
