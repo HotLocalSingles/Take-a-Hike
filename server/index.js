@@ -94,18 +94,18 @@ app.post('/logout', function(req, res) {
 });
 
 
-// // Middleware to check if user is logged in on every request
-// const isAuthenticated = (req, res, next) => {
-//   if(req.user) {
-//     console.log('User authenticated', req.user)
-//     return next();
-//   }
-//   else {
-//     return res.status(401).send('User not authenticated');
-//   }
-// }
+// Middleware to check if user is logged in on every request
+const isAuthenticated = (req, res, next) => {
+  if(req.user) {
+    console.log('User authenticated', req.user)
+    return next();
+  }
+  else {
+    return res.status(401).send('User not authenticated');
+  }
+}
 
-// app.use(isAuthenticated) // using the function above in middleware
+app.use(isAuthenticated) // using the function above in middleware
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -246,18 +246,6 @@ app.get("/api/birdList/", (req, res) => {
       res.sendStatus(404);
     });
 });
-
-app.get("/api/learnedBirds/", (req, res) => {
-  BirdList.findAll()
-    .then((birds) => {
-      res.json(birds);
-    })
-    .catch((err) => {
-      console.error("ERROR: ", err);
-      res.sendStatus(404);
-    });
-});
-
 
 
 //GET req for all select birdList data

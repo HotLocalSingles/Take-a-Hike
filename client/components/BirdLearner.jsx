@@ -54,7 +54,8 @@ const BirdLearner = ({ birdList, userId }) => {
       audioPlayer.pause();
       audioPlayer.currentTime = 0;
       audioPlayer.src = audioUrl;
-      audioPlayer.play();
+      // uncomment line below for autoplay.
+      // audioPlayer.play();
     }
   };
 

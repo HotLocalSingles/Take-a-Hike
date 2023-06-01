@@ -20,6 +20,23 @@ learnedBirdsRouter.post('/', (req, res) => {
     });
 });
 
+
+// GET route to fetch learned birds for a user
+learnedBirdsRouter.get('/', (req, res) => {
+  const { userId } = req.query; // Assuming the userId is passed as a query parameter
+
+  // Find all learnedBirds for the given userId
+  LearnedBirds.findAll({ where: { userId } })
+    .then((learnedBirds) => {
+      res.status(200).json(learnedBirds); // Return the learnedBirds as the response
+    })
+    .catch((error) => {
+      console.error('Error fetching learnedBirds:', error);
+      res.status(500).json({ error: 'Failed to fetch learnedBirds' });
+    });
+});
+
+
 // Export the router
 module.exports = {
   learnedBirdsRouter,
