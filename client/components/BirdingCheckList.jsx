@@ -70,7 +70,7 @@ const BirdingCheckList = () => {
   // Return Component Template
   return (
     <div className="section is-large">
-      <BirdLearner userId={userId} birdList={birdList} />
+      <BirdLearner userId={userId} birdList={birdList} listOfLearnedBirds={learnedBirds}/>
       <h1 className="title" alignment="center">
         {userName}'s Birding Checklist
       </h1>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const BirdLearner = ({ birdList, userId }) => {
+const BirdLearner = ({ birdList, userId, listOfLearnedBirds }) => {
   const [randomBirds, setRandomBirds] = useState([]);
   const [audioPlayer, setAudioPlayer] = useState(null);
   const [chosenBird, setChosenBird] = useState(null);
@@ -105,7 +105,11 @@ const BirdLearner = ({ birdList, userId }) => {
           {bird.commonName}
         </button>
       ))}
+      
+      <div>
       {audioPlayer && <button onClick={() => audioPlayer.play()}>PLAY!</button>}
+      {listOfLearnedBirds.length} / {birdList.length}
+      </div>
     </div>
   );
 };
