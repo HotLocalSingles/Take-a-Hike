@@ -1,22 +1,25 @@
-const { DataTypes } = require('sequelize');
-const { db } = require('../index.js');
+const { DataTypes } = require("sequelize");
+const { db } = require("../index.js");
 const { Users } = require('./users.js');
 
-const Stories = db.define('Stories', {
+const Stories = db.define('stories', {
+  _id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   story: {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    foreignKey: true,
+    references: { model: 'users', key: '_id' }  // One to many relationship with Users : Stories
+  },
 });
 
-Stories.belongsTo(Users, {
-  foreignKey: '_id',
-  onDelete: 'CASCADE'
-});
-
-Users.hasMany(Stories);
-
-Stories.sync();
 
 module.exports = {
   Stories,
