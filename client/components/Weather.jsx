@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
 
 /*
 The weather component has 3 parts: The location, live weather details
@@ -18,6 +18,7 @@ const Weather = () => {
   const [locations, setLocations] = useState([]);
   const [currentLocation, setCurrentLocation] = useState('');
   const [weather, setWeather] = useState({});
+  const [view, setView] = useState('Daily');
 
   const weatherCodeNumbers = {
     0: 'clear skies',
@@ -104,6 +105,11 @@ const windDirectionFunction = (directionNumber) => {
       setCurrentLocation(event.target.value);
    };
 
+   //this function is designed to change the view on the WeatherBox
+   const handleViewChange = () => {
+    setView((prevView) => prevView === 'Daily' ? 'Extended' : 'Daily');
+  };
+
   //separating the useEffect and the api call means only one call
   //pull the data from the external api
   //set current_weather to true to return current_weather object
@@ -153,6 +159,9 @@ const windDirectionFunction = (directionNumber) => {
           </MenuItem>
         ))}
       </Select>
+      <Button variant="outlined" onClick={handleViewChange}>
+        {view === 'Daily' ? 'View Extended Data' : 'View Daily Data'}
+      </Button>
       </div>
       <Box
         sx={{
@@ -171,7 +180,7 @@ const windDirectionFunction = (directionNumber) => {
         </Typography>
                 <div style={{ height: '30px'}}></div>
         <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
-          Temperature: { weather.temperature }
+          Temperature: { weather.temperature } C
         </Typography>
                 <div style={{ height: '30px'}}></div>
         <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
