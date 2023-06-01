@@ -12,6 +12,9 @@ const { BirdSightings } = require("./database/models/birdSightings.js")
 const { PackingLists } = require("./database/models/packingLists");
 const { PackingListItems } = require("./database/models/packingListItems");
 
+const { learnedBirdsRouter } = require('./database/routes/learnedBirdsRouter.js');
+
+// const { default: PackingList } = require("../client/components/PackingList");
 const router = express.Router();
 const session = require('express-session');
 require('./middleware/auth.js');
@@ -59,6 +62,9 @@ app.use(
 app.use(passport.initialize()); //passport is used on every call
 app.use(passport.session());  //passport uses express-session
 
+
+
+app.use('/api/learnedBirds', learnedBirdsRouter);
 
 const successLoginUrl = 'http://localhost:5555/#/trailslist';
 const errorLoginUrl = 'http://localhost:5555/login/error';
@@ -240,6 +246,19 @@ app.get("/api/birdList/", (req, res) => {
       res.sendStatus(404);
     });
 });
+
+app.get("/api/learnedBirds/", (req, res) => {
+  BirdList.findAll()
+    .then((birds) => {
+      res.json(birds);
+    })
+    .catch((err) => {
+      console.error("ERROR: ", err);
+      res.sendStatus(404);
+    });
+});
+
+
 
 //GET req for all select birdList data
 app.get('/api/birdList/birdSearch', (req, res) => {
