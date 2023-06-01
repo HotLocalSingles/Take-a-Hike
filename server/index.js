@@ -89,17 +89,17 @@ app.post('/logout', function(req, res) {
 
 
 // // Middleware to check if user is logged in on every request
-const isAuthenticated = (req, res, next) => {
-  if(req.user) {
-    console.log('User authenticated', req.user)
-    return next();
-  }
-  else {
-    return res.status(401).send('User not authenticated');
-  }
-}
+// const isAuthenticated = (req, res, next) => {
+//   if(req.user) {
+//     console.log('User authenticated', req.user)
+//     return next();
+//   }
+//   else {
+//     return res.status(401).send('User not authenticated');
+//   }
+// }
 
-app.use(isAuthenticated) // using the function above in middleware
+// app.use(isAuthenticated) // using the function above in middleware
 
 ///////////////////////////////////////////////////////////////////////////
 
