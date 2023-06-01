@@ -108,7 +108,9 @@ const BirdLearner = ({ birdList, userId, listOfLearnedBirds }) => {
       
       <div>
       {audioPlayer && <button onClick={() => audioPlayer.play()}>PLAY!</button>}
-      {listOfLearnedBirds.length} / {birdList.length}
+      <br></br>
+      {listOfLearnedBirds.length} / {birdList.length} Birds Learned
+
       </div>
     </div>
   );

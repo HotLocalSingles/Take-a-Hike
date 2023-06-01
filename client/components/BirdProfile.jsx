@@ -3,7 +3,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
 // Create Functional Component
 const BirdProfile = ({ bird, userId, birdSightings, listOfLearnedBirds }) => {
   const [checked, setChecked] = useState(false);
@@ -30,7 +29,7 @@ const BirdProfile = ({ bird, userId, birdSightings, listOfLearnedBirds }) => {
         {listOfLearnedBirds.some((item) => item.birdId === bird._id) && (
           <span className="badge">
             I learned this bird!
-            {/* <img src={birdBadge} alt="Badge" className="badge-image" /> */}
+            {/* <img src={BirdBadge} alt="Badge" className="badge-image" /> */}
           </span>
         )}
       </div>
