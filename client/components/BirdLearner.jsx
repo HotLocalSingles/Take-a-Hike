@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const BirdLearner = ({ birdList, userId, listOfLearnedBirds }) => {
+const BirdLearner = ({ birdList, userId, listOfLearnedBirds, setListOfLearnedBirds }) => {
   const [randomBirds, setRandomBirds] = useState([]);
   const [audioPlayer, setAudioPlayer] = useState(null);
   const [chosenBird, setChosenBird] = useState(null);
@@ -55,7 +55,7 @@ const BirdLearner = ({ birdList, userId, listOfLearnedBirds }) => {
       audioPlayer.currentTime = 0;
       audioPlayer.src = audioUrl;
       // uncomment line below for autoplay.
-      // audioPlayer.play();
+      //audioPlayer.play();
     }
   };
 
@@ -112,26 +112,31 @@ const BirdLearner = ({ birdList, userId, listOfLearnedBirds }) => {
   return (
     <div>
       <audio ref={(ref) => setAudioPlayer(ref)} />
-
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div className="bird-learner" style={{ display: "flex", alignItems: "center" }}>
         <h1>Which feathered virtuoso is behind this delightful serenade?</h1>
         <div style={{ marginLeft: "10px" }}>
           {audioPlayer && (
-            <button onClick={() => audioPlayer.play()}>PLAY!</button>
+            <button className="button is-info" onClick={() => audioPlayer.play()}>
+              PLAY!
+            </button>
           )}
         </div>
       </div>
-          <br></br>
-      {randomBirds.map((bird, index) => (
-        <button key={index} onClick={() => handleBirdChoice(bird)}>
-          {bird.commonName}
-        </button>
-      ))}
-
+      <br />
+      <div
+        className="bird-buttons-container"
+        style={{ display: "flex", justifyContent: "space-between", marginTop: "10px" }}
+      >
+        {randomBirds.map((bird, index) => (
+          <button key={index} onClick={() => handleBirdChoice(bird)} className="bird-button">
+            {bird.commonName}
+          </button>
+        ))}
+      </div>
       <div>
         {listOfLearnedBirds.length} / {birdList.length} Birds Learned
       </div>
-      <br></br>
+      <br />
       <button onClick={handleClearProgress}>Clear Progress</button>
     </div>
   );
