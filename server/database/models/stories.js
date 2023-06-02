@@ -24,7 +24,7 @@ const Stories = db.define('stories', {
   },
 });
 
-const saveStory = async (title, story) => {
+const saveStory = async (title, story, user_id) => {
   const newStory = await Stories.create({
     title,
     story,
