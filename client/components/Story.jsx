@@ -8,6 +8,23 @@ const Story = () => {
   const [editedStory, setEditedStory] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState('');
+  const [user, setUser] = useState(null);
+
+  const getUserObj = () => {
+    axios.get("/user").then((response) => {
+      const user = response.data;
+      console.log(user);
+      setUser(user);
+    })
+    .catch((err) => {
+      console.error("Could not GET user at client", err);
+      // navigate('/login');
+    })
+  }
+
+  useEffect (() => {
+    getUserObj();
+  }, [])
 
   const handleInput = (e) => {
     const { value } = e.target;
@@ -42,7 +59,7 @@ const Story = () => {
 
   const saveStory = async () => {
     try {
-      await axios.post('/api/stories/:id', {story, title});
+      await axios.post(`/api/stories/${user._id}`, {story, title});
     } catch (err) {
       console.error('Failed to SAVE story to DB at client:', err)
     }
