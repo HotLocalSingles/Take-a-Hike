@@ -96,22 +96,43 @@ const BirdLearner = ({ birdList, userId, listOfLearnedBirds }) => {
     }
   };
 
+  const handleClearProgress = () => {
+    axios
+      .delete("/api/learnedBirds", { params: { userId } })
+      .then((response) => {
+        console.log("Progress cleared successfully");
+        // Handle any necessary state updates or notifications
+      })
+      .catch((error) => {
+        console.error("Error clearing progress:", error);
+        // Handle the error and display an error message if needed
+      });
+  };
+
   return (
     <div>
       <audio ref={(ref) => setAudioPlayer(ref)} />
-      <h1>Which feathered virtuoso is behind this delightful serenade?</h1>
+
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <h1>Which feathered virtuoso is behind this delightful serenade?</h1>
+        <div style={{ marginLeft: "10px" }}>
+          {audioPlayer && (
+            <button onClick={() => audioPlayer.play()}>PLAY!</button>
+          )}
+        </div>
+      </div>
+          <br></br>
       {randomBirds.map((bird, index) => (
         <button key={index} onClick={() => handleBirdChoice(bird)}>
           {bird.commonName}
         </button>
       ))}
-      
-      <div>
-      {audioPlayer && <button onClick={() => audioPlayer.play()}>PLAY!</button>}
-      <br></br>
-      {listOfLearnedBirds.length} / {birdList.length} Birds Learned
 
+      <div>
+        {listOfLearnedBirds.length} / {birdList.length} Birds Learned
       </div>
+      <br></br>
+      <button onClick={handleClearProgress}>Clear Progress</button>
     </div>
   );
 };

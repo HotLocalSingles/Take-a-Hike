@@ -29,7 +29,7 @@ const BirdProfile = ({ bird, userId, birdSightings, listOfLearnedBirds }) => {
         {listOfLearnedBirds.some((item) => item.birdId === bird._id) && (
           <span className="badge">
             I learned this bird!
-            {/* <img src={BirdBadge} alt="Badge" className="badge-image" /> */}
+            {/* <img src="" alt="" className="badge-image" /> */}
           </span>
         )}
       </div>
