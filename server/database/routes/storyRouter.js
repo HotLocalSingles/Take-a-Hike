@@ -23,11 +23,11 @@ const getStory = async (word) => {
   return response.data;
 }
 
-router.post('/id', async (req, res) => {
+router.post('/:id', async (req, res) => {
   const { title, story } = req.body;
-  console.log(user.body);
+  const { id } = req.params;
   try {
-    await saveStory(title, story);
+    await saveStory(title, story.join(''), id);
     res.sendStatus(201);
   } catch (err) {
     console.error('Failed to SAVE story to DB at server:', err);
