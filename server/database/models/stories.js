@@ -8,6 +8,10 @@ const Stories = db.define('stories', {
     primaryKey: true,
     autoIncrement: true,
   },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   story: {
     type: DataTypes.TEXT,
     allowNull: true,
@@ -20,7 +24,16 @@ const Stories = db.define('stories', {
   },
 });
 
+const saveStory = async (title, story) => {
+  const newStory = await Stories.create({
+    title,
+    story,
+    user_id
+  });
+  await newStory.save();
+}
 
 module.exports = {
   Stories,
+  saveStory,
 };
