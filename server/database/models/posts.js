@@ -12,10 +12,6 @@ const Posts = db.define("posts", {
     type: DataTypes.STRING,
     allowNull: false
   },
-  location: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
   description: {
     type: DataTypes.STRING,
     allowNull: false
