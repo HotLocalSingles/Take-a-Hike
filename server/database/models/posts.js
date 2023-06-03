@@ -21,11 +21,19 @@ const Posts = db.define("posts", {
     allowNull: false
   },
   pictures: {
-    type: DataTypes.BLOB,
-    // allowNull: false
+    type: DataTypes.STRING,
+    allowNull: false
   },
   price: {
     type: DataTypes.STRING,
+    allowNull: false
+  },
+  lat: {
+    type: DataTypes.DECIMAL(9, 6),
+    allowNull: false
+  },
+  lng: {
+    type: DataTypes.DECIMAL(9, 6),
     allowNull: false
   },
   user_id: {
