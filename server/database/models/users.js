@@ -29,6 +29,17 @@ const Users = db.define("users", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  _id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  favoriteTrail: {
+    type: DataTypes.STRING
+  }
+  // name: { type: DataTypes.STRING(80), allowNull: false },
+  // password: {Type: DataTypes.STRING, allowNull: false}, (SANTO!!!!!!)
 });
 
 

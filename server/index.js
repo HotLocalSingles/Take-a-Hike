@@ -17,6 +17,7 @@ const session = require('express-session');
 require('./middleware/auth.js');
 const { cloudinary } = require('./utils/coudinary');
 const { Users } = require('./database/models/users');
+const { Trails } = require('./database/models/trails.js');
 
 // // Import session storage
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -77,7 +78,7 @@ app.get(
     successRedirect: successLoginUrl,
   }),
   (req, res) => {
-    console.log('User: ', req.user);
+    // console.log('User: ', req.user);
     res.send('thank you for signing in!');
   }
 );
@@ -89,17 +90,17 @@ app.post('/logout', function(req, res) {
 
 
 // // Middleware to check if user is logged in on every request
-const isAuthenticated = (req, res, next) => {
-  if(req.user) {
-    console.log('User authenticated', req.user)
-    return next();
-  }
-  else {
-    return res.status(401).send('User not authenticated');
-  }
-}
+// const isAuthenticated = (req, res, next) => {
+//   if(req.user) {
+//     console.log('User authenticated', req.user)
+//     return next();
+//   }
+//   else {
+//     return res.status(401).send('User not authenticated');
+//   }
+// }
 
-app.use(isAuthenticated) // using the function above in middleware
+// app.use(isAuthenticated) // using the function above in middleware
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -109,9 +110,9 @@ const trading = require('./database/routes/tradingRouter.js');
 app.use('/trading', trading);
 
 app.get("/profile",(req, res) => {
-  Users.findOne()
+  Users.findAll()
     .then((data) => {
-      console.log('data', data);
+      console.log('users', data);
       res.send(data).status(200);
     })
     .catch((err) => {
@@ -122,16 +123,15 @@ app.get("/profile",(req, res) => {
 
 ////////////////////////////////////////EXTERNAL TRAIL API ROUTE/////////////////////////////////////////
 
-//GET req for trail data by latitude/longitude
+//GET req for trail data by latitude/longitude/name
 app.get("/api/trailslist", (req, res) => {
   axios
     .get(
-      `https://trailapi-trailapi.p.rapidapi.com/trails/explore/?lat=${req.query.lat}&lon=${req.query.lon}&radius=100`,
+      `https://trailapi-trailapi.p.rapidapi.com/trails/explore/?lat=${req.query.lat}&lon=${req.query.lon}&name=${req.query.name}&radius=100`,
       {
         headers: {
           "X-RapidAPI-Host": "trailapi-trailapi.p.rapidapi.com",
-          "X-RapidAPI-Key":
-            "a27adeb778msh22d13ed248d5359p1d95b8jsnb7239b396c5c",
+          "X-RapidAPI-Key": process.env.X-RapidApi-Key,
         },
       }
     )
@@ -145,11 +145,22 @@ app.get("/api/trailslist", (req, res) => {
     });
 });
 
+app.get("/api/trailnames", (req, res) => {
+  Trails.findAll({})
+  .then(names => {
+    res.json(names);
+  })
+  .catch(err => {
+    console.error("ERROR: ", err);
+    res.status(404).send('Error fetching trails');
+  });
+});
+
 //////////////////////////////////////// Cloudinary routes //////////////////////////////////////
 
 // get request to get all images (this will later be trail specific)
 app.post("/api/images", async (req, res) => {
-  console.log(`server index.js || LINE 70`, req.body);
+  // console.log(`server index.js || LINE 70`, req.body);
   // NEED TO CHANGE ENDPOINT TO INCLUDE TRAIL SPECIFIC PARAM SO PHOTOS CAN BE UPLOADED + RENDERED PROPERLY
 
   // Can create new folder with upload from TrailProfile component. Need to modify get request to filter based on folder param (which will be equal to the trail name)
@@ -173,13 +184,13 @@ app.post("/api/images", async (req, res) => {
  * Routes for packing list
  */
 app.post("/api/packingLists", (req, res) => {
-  console.log(req.body, "Server index.js LINE 55");
+  // console.log(req.body, "Server index.js LINE 55");
   PackingLists.create({
     listName: req.body.listName,
     packingListDescription: req.body.packingListDescription,
   })
     .then((data) => {
-      console.log("LINE 63", data.dataValues);
+      // console.log("LINE 63", data.dataValues);
       res.sendStatus(201);
     })
     .catch((err) => {
@@ -191,10 +202,10 @@ app.post("/api/packingLists", (req, res) => {
  * Routes for packing list GET ALL LISTS
  */
 app.get("/api/packingLists", (req, res) => {
-  console.log("Server index.js LINE 166", req.body);
+  // console.log("Server index.js LINE 166", req.body);
   PackingLists.findAll()
     .then((data) => {
-      console.log("LINE 169", data);
+      // console.log("LINE 169", data);
       res.status(200).send(data);
     })
     .catch((err) => {
@@ -207,13 +218,13 @@ app.get("/api/packingLists", (req, res) => {
  * post request to the packingListItems
  */
 app.post('/api/packingListItems', (req, res) => {
-  console.log(
-    'Is this being reached? LINE 103 SERVER.index.js || REQ.BODY \n',
-    req.body
-  );
+  // console.log(
+  //   'Is this being reached? LINE 103 SERVER.index.js || REQ.BODY \n',
+  //   req.body
+  // );
   PackingListItems.create(listItem)
     .then((data) => {
-      console.log('from lINE 106 INDEX.js || DATA \n', data);
+      // console.log('from lINE 106 INDEX.js || DATA \n', data);
       res.sendStatus(200);
     })
     .catch((err) => {
@@ -284,7 +295,7 @@ app.post('/api/birdsightings', (req, res) => {
     user_id: req.body.user_id,
   })
     .then((data) => {
-      console.log('LINE 220', data);
+      // console.log('LINE 220', data);
       res.sendStatus(201);
     })
     .catch((err) => {
@@ -301,7 +312,7 @@ app.delete('/api/birdsightings', (req, res) => {
     user_id: req.body.user_id,
   })
     .then((data) => {
-      console.log('LINE 220', data);
+      // console.log('LINE 220', data);
       res.sendStatus(201);
     })
     .catch((err) => {
