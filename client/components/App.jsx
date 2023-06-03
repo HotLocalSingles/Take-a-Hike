@@ -20,12 +20,23 @@ import TradingNewPost from './TradingPost/TradingNewPost.jsx';
 
 const App = () => {
   const [trailList, setTrailList] = useState([]);
+  const [user, setUser] = useState([]);
+
+  const getUserObj = async () => {
+    try {
+      const response = await axios.get("/user");
+      setUser(response.data);
+    } catch (err) {
+      console.error("Could not GET user at client", err);
+    }
+  };
 
   useEffect(() => {
     if (localStorage.getItem('TrailList')) {
       const trails = JSON.parse(localStorage.getItem('TrailList'));
       setTrailList(trails);
     }
+    getUserObj();
   }, []);
 
   // were in trail list
@@ -91,7 +102,7 @@ const App = () => {
         />
         <Route path='quartermaster' element={<Quartermaster />} />
         <Route path='birdingchecklist' element={<BirdingCheckList />} />
-        <Route path='stories' element={<Story />} />
+        <Route path='stories' element={<Story id={user._id} />} />
         <Route path='profile' element={<UserProfile />} />
         <Route path='tradingpost' element={<TradingMain />} >
           <Route path='tradingboard' element={<TradingBoard />}/>
