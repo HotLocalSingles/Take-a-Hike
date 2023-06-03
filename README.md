@@ -101,7 +101,7 @@ Dev Setup:
 1. GOOGLE_CLIENT_ID=
 2. GOOGLE_CLIENT_SECRET=
 
-(for photo upload) 3. CLOUDINARY_URL= 4. CLOUDINARY_NAME= 5. CLOUDINARY_API_KEY= 6. CLOUDINARY_API_SECRET=
+(for photo upload) 3. CLOUDINARY_URL= 4. CLOUDINARY_NAME= 5. CLOUDINARY_API_KEY= 6. CLOUDINARY_API_SECRET= 7. CLOUDINARY_UPLOAD_PRESET=
 
 (for hiking trail data) 8. X-RapidApi Key= 9. X-RapidAPI-Host=
 
@@ -114,7 +114,12 @@ Dev Setup:
 Google Oauth requires a google cloud account. First create your account and then navigate to the developer console. Go to google API and create a clientID and clientSecret. This goes inside the .env file.
 
 ## Session ID Cookie
+
 It can be any string of your choice; it's for security purposes.
+
+## Cloudinary
+
+The upload preset needs to be made to handle client-side requests. You want the mode to be unsigned and access mode to be public.
 
 ## Installation/Start-up
 
