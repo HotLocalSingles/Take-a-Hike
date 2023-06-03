@@ -43,7 +43,7 @@ const BirdingCheckList = () => {
         })
         .then((response) => {
           setLearnedBirds(response.data);
-          console.log(response, 'Lorned Bords');
+          console.log(response, "Lorned Bords");
         })
         .catch((error) => {
           console.error("Error fetching learned birds:", error);
@@ -69,16 +69,25 @@ const BirdingCheckList = () => {
 
   // Return Component Template
   return (
-    <div className="section is-large">
-      <BirdLearner userId={userId} birdList={birdList} listOfLearnedBirds={learnedBirds}/>
-      <h1 className="title" alignment="center">
-        {userName}'s Birding Checklist
-      </h1>
-      <h2 className="subtitle">
-        Your one stop shop to keep track of all your Louisiana bird sightings.
-        There is no better way to celebrate the great state of Louisiana than
-        spotting all the wonderful birds that inhabit it. So get to hiking!
-      </h2>
+    <div className="section is-small">
+      <div className="bird-learner-container">
+        <BirdLearner
+          userId={userId}
+          birdList={birdList}
+          listOfLearnedBirds={learnedBirds}
+        />
+      </div>
+
+      <div className="section is-small" >
+        <h1 className="title is-left" alignment="left">
+          {userName}'s Birding Checklist
+        </h1>
+        <h2 className="subtitle">
+          Your one stop shop to keep track of all your Louisiana bird sightings.
+          There is no better way to celebrate the great state of Louisiana than
+          spotting all the wonderful birds that inhabit it. So get to hiking!
+        </h2>
+      </div>
       <form>
         <label>
           <input

@@ -112,11 +112,11 @@ const BirdLearner = ({ birdList, userId, listOfLearnedBirds, setListOfLearnedBir
   return (
     <div>
       <audio ref={(ref) => setAudioPlayer(ref)} />
-      <div className="bird-learner" style={{ display: "flex", alignItems: "center" }}>
+      <div className="bird-learner" style={{ display: "flex" }}>
         <h1>Which feathered virtuoso is behind this delightful serenade?</h1>
-        <div style={{ marginLeft: "10px" }}>
+        <div style={{ marginLeft: '20px' }}>
           {audioPlayer && (
-            <button className="button is-info" onClick={() => audioPlayer.play()}>
+            <button className="button is-info is-medium" onClick={() => audioPlayer.play()}>
               PLAY!
             </button>
           )}
@@ -125,7 +125,7 @@ const BirdLearner = ({ birdList, userId, listOfLearnedBirds, setListOfLearnedBir
       <br />
       <div
         className="bird-buttons-container"
-        style={{ display: "flex", justifyContent: "space-between", marginTop: "10px" }}
+        style={{ justifyContent: "space-between", marginTop: "10px", alignItems: "left"}}
       >
         {randomBirds.map((bird, index) => (
           <button key={index} onClick={() => handleBirdChoice(bird)} className="bird-button">
@@ -133,11 +133,11 @@ const BirdLearner = ({ birdList, userId, listOfLearnedBirds, setListOfLearnedBir
           </button>
         ))}
       </div>
-      <div>
+      <div style={{color: '#485fc7', paddingTop: '5px'}}>
         {listOfLearnedBirds.length} / {birdList.length} Birds Learned
       </div>
       <br />
-      <button onClick={handleClearProgress}>Clear Progress</button>
+      <button className="button is-danger is-light is-small" onClick={handleClearProgress} >Clear Progress</button>
     </div>
   );
 };
