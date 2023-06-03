@@ -18,7 +18,7 @@ const PackingListItems = ({
     axios
       .get('/api/packingListItems')
       .then((response) => {
-        // console.log('ALL LISTS FROM DATABASE LINE 79 ||', response.data);
+        console.log('ALL LISTS FROM DATABASE LINE 79 ||', response.data);
         setPackingListItems((state) => {
           return { ...state, listItems: response.data };
         });
@@ -32,7 +32,7 @@ const PackingListItems = ({
   //captures input list name from the user
   const handleChange = (e) => {
     //set name in state
-    // console.log(e);
+    console.log(e);
     setPackingListItems((state) => {
       return { ...state, listItem: e.target.value };
     });
@@ -47,7 +47,7 @@ const PackingListItems = ({
         listItem: packingListItems.listItem,
       })
       .then((data) => {
-        // console.log(packingListItems.listItem, 'FROM LINE 52', data);
+        console.log(packingListItems.listItem, 'FROM LINE 52', data);
       })
       .catch((err) => {
         console.error('Something went really Wrong', err);
