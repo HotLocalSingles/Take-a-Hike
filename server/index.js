@@ -311,6 +311,18 @@ app.delete('/api/birdsightings', (req, res) => {
     });
 });
 
+// Getting the user object on the request and sending it to the client side
+app.get('/user', async (req, res) => {
+  try {
+    const user = req.user;
+    if(user) {
+      res.status(200).send(user);
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 // LEGACY ROUTES
 app.use('/api/stories', storyRouter);
 
