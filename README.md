@@ -68,7 +68,7 @@ Our authentication is handled with oauth and passport. Our passport and google s
 
 ### apis
 
-We used 3 external apis for this project:
+We used 4 external apis for this project:
 
 1. RapidAPI - Trail API - https://rapidapi.com/trailapi/api/trailapi/
    This API allows us to search for any trails in the world based on latitude and longitude. It requires an API key and registration through RapidAPI, but both are free.
@@ -79,6 +79,9 @@ We used 3 external apis for this project:
 3. BirdSightings API - https://documenter.getpostman.com/view/664302/S1ENwy59?version=latest
    This api allows users to search for any bird species and receive data about that specific bird. It is maintained by Cornell University and is free.
 
+4. MapBox API - https://docs.mapbox.com/help/getting-started/access-tokens/
+   This api allows users to use the various maps in the trading section. It has a large free limit for map requests so don't worry too much about this.
+
 ### front-end
 
 The front-end was built using React and React Router. In App.jsx we initialize our trail data so that upon refresh of trail profile, the most recent trail data is rendered. In that same file we route our links and routes for the app.
@@ -86,6 +89,8 @@ The front-end was built using React and React Router. In App.jsx we initialize o
 The HashRouter can be found in client/index.jsx
 
 The styling is found in login.css and main.css.
+
+There is some inline styling found in the Trading Section.
 
 Dev Setup:
 
@@ -101,6 +106,8 @@ Dev Setup:
 (for hiking trail data) 8. X-RapidApi Key= 9. X-RapidAPI-Host=
 
 10. (for session secret key) SESSION_ID_COOKIE=
+
+11 (for mapBox rendering) MAPBOX_API_KEY=
 
 ## Google OAuth
 
