@@ -80,9 +80,6 @@ const App = () => {
         <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
         <Link to='/stories'>Ghost Stories</Link> |{' '}
         <Link to='/profile'>User Profile</Link> |{' '}
-        <Link to='/quartermaster'>Quartermaster</Link> |{' '}
-        <Link to='/trailslist'>Trails List</Link> |{' '}
-        <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
         <Link to='/tradingpost'>Trading Post</Link> {' '}
       </nav>
       <Routes>
