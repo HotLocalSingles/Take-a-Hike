@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import axios from 'axios';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 
 // import './styles/main.css';
 import TrailsList from './TrailsList.jsx';
@@ -12,17 +12,25 @@ import UserProfile from './UserProfile.jsx';
 import BirdingCheckList from './BirdingCheckList.jsx';
 import PackingList from './PackingList.jsx';
 import Login from './Login.jsx';
-import Weather from './Weather.jsx';
+
+import TradingMain from '../components/TradingPost/TradingMain.jsx';
+import TradingBoard from './TradingPost/TradingBoard.jsx';
+import TradingNewPost from './TradingPost/TradingNewPost.jsx';
+import TradeDisplay from './TradingPost/TradeDisplay.jsx';
 
 const App = () => {
+
   const [trailList, setTrailList] = useState([]);
 
+
   useEffect(() => {
+  
     if (localStorage.getItem('TrailList')) {
       const trails = JSON.parse(localStorage.getItem('TrailList'));
       setTrailList(trails);
     }
   }, []);
+  
 
   // were in trail list
   const handleGetTrails = (location) => {
@@ -58,15 +66,12 @@ const App = () => {
         }}
       >
         <Link to='/login'>Login</Link> |{' '}
-        <Link to='/trailslist'>Trails List</Link> |{' '}
-        {/* <Link to="/trailprofile/1">Trail Profile</Link> |{' '} */}
-        <Link to='/quartermaster'>Quartermaster</Link> |{' '}
-        {/* <Link to="/packinglist">Packing List</Link> |{" "} */}
-        <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
         <Link to='/profile'>User Profile</Link> |{' '}
-        <Link to='/weather'>Weather</Link> |{' '}
+        <Link to='/quartermaster'>Quartermaster</Link> |{' '}
+        <Link to='/trailslist'>Trails List</Link> |{' '}
+        <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
+        <Link to='/tradingpost'>Trading Post</Link> {' '}
       </nav>
-      {/* <Route path="login" element={<Login />} /> */}
       <Routes>
         <Route
           path='trailslist'
@@ -83,10 +88,14 @@ const App = () => {
           element={<TrailProfile trailList={trailList} />}
         />
         <Route path='quartermaster' element={<Quartermaster />} />
-        {/* <Route path="packinglist/:id" element={<PackingList />} /> */}
         <Route path='birdingchecklist' element={<BirdingCheckList />} />
-        <Route path='profile' element={<UserProfile />} />
-        <Route path='weather' element={<Weather />} />
+        <Route path='/profile' element={<UserProfile />} />
+        <Route path='/profile/:id' element={<UserProfile />} />
+        <Route path='tradingpost' element={<TradingMain />} >
+          <Route path='tradingboard' element={<TradingBoard />}/>
+          <Route path='createtrade' element={<TradingNewPost />}/>
+          <Route path="trade/:postId" element={<TradeDisplay />} />
+        </Route>
       </Routes>
       <Outlet />
     </div>

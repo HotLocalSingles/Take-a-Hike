@@ -11,7 +11,7 @@ const db = new Sequelize("TakeAHike", "root", "", {
 });
 
 // Use Sequelize Authenticate Method
-db.sync()  // Syncs the database and models
+db.sync({alter: true})  // Syncs the database and models
   .then(() => {
     console.log("Tables have been synchronized.");
     db.authenticate()
