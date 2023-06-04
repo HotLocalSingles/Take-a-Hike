@@ -60,7 +60,7 @@ app.use(
 app.use(passport.initialize()); //passport is used on every call
 app.use(passport.session());  //passport uses express-session
 
-
+require('./middleware/auth.js'); //import Passport configuration
 const successLoginUrl = 'http://localhost:5555/#/trailslist';
 const errorLoginUrl = 'http://localhost:5555/login/error';
 
@@ -88,6 +88,8 @@ app.post('/logout', function(req, res) {
   res.redirect('/#/login');
 });
 
+//grab all the users
+app.get('/api/users', )
 
 // // Middleware to check if user is logged in on every request
 // const isAuthenticated = (req, res, next) => {
@@ -155,6 +157,50 @@ app.get("/api/trailnames", (req, res) => {
     res.status(404).send('Error fetching trails');
   });
 });
+
+//establish database endpoint for favoriteTrail
+app.put('/api/users/updateFavoriteTrail', async (req, res) => {
+  const { userId, favoriteTrail } = req.body;
+  try {
+    const user = await Users.findOne({
+      where: {
+        _id: userId,
+      }
+    });
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    user.favoriteTrail = favoriteTrail;
+    await user.save();
+
+    res.status(200).send('Favorite trail updated successfully');
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
+//endpoint for user
+app.get('/api/users/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await Users.findOne({
+      where: {
+        _id: userId,
+      }
+      
+    });
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
 
 //////////////////////////////////////// Cloudinary routes //////////////////////////////////////
 
