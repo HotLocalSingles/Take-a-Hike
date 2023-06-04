@@ -92,14 +92,17 @@ const windDirectionFunction = (directionNumber) => {
       };
       fetchLocations();
     }, []);
+
    //handle when a user selects a different location
    const handleLocationChange = (event) => {
       setCurrentLocation(event.target.value);
    };
+
    //this function is designed to change the view on the WeatherBox
    const handleViewChange = () => {
     setView((prevView) => prevView === 'Daily' ? 'Extended' : 'Daily');
   };
+
   //separating the useEffect and the api call means only one call
   //pull the data from the external api
   //set current_weather to true to return current_weather object
@@ -120,7 +123,7 @@ const windDirectionFunction = (directionNumber) => {
   useEffect(() => {
     fetchWeather(currentLocation);
   }, [currentLocation]);
-  
+
  //fetch 14 day weather data
  const fetch14Weather = async (location) => {
   if (location.name) {
