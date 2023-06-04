@@ -11,6 +11,7 @@ const { BirdList } = require("./database/models/birdList.js")
 const { BirdSightings } = require("./database/models/birdSightings.js")
 const { PackingLists } = require("./database/models/packingLists");
 const { PackingListItems } = require("./database/models/packingListItems");
+const storyRouter = require("./database/routes/storyRouter.js");
 
 const { learnedBirdsRouter } = require('./database/routes/learnedBirdsRouter.js');
 
@@ -329,6 +330,21 @@ app.delete('/api/birdsightings', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+// Getting the user object on the request and sending it to the client side
+app.get('/user', async (req, res) => {
+  try {
+    const user = req.user;
+    if(user) {
+      res.status(200).send(user);
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// LEGACY ROUTES
+app.use('/api/stories', storyRouter);
 
 // launches the server from localhost on port 5555
 app.listen(PORT, () => {
