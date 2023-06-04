@@ -28,6 +28,7 @@ const seedSqlize = () => {
     const birdsOfLA = require('./data/eBirdData.js');
     const { BirdList } = require('./models/birdList.js');
     const { BirdSightings } = require('./models/birdSightings.js');
+    const { LearnedBirds } = require("./models/learnedBirds.js");
     const { Stories } = require('./models/stories.js');
 
     Users.sync()
@@ -56,6 +57,13 @@ const seedSqlize = () => {
         console.log(
           '\x1b[36m',
           "\nDatabase (MySQL): 'BirdSightings' table successfully created!"
+        )
+      )
+      .then(() => LearnedBirds.sync()) // Sync the LearnedBirds table
+      .then(() =>
+        console.log(
+          "\x1b[36m",
+          "\nDatabase (MySQL): 'LearnedBirds' table successfully created!"
         )
       )
       .then(() => PackingListItems.sync())

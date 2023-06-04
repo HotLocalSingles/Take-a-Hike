@@ -13,6 +13,9 @@ const { PackingLists } = require("./database/models/packingLists");
 const { PackingListItems } = require("./database/models/packingListItems");
 const storyRouter = require("./database/routes/storyRouter.js");
 
+const { learnedBirdsRouter } = require('./database/routes/learnedBirdsRouter.js');
+
+// const { default: PackingList } = require("../client/components/PackingList");
 const router = express.Router();
 const session = require('express-session');
 require('./middleware/auth.js');
@@ -61,6 +64,10 @@ app.use(passport.initialize()); //passport is used on every call
 app.use(passport.session());  //passport uses express-session
 
 
+
+app.use('/api/learnedBirds', learnedBirdsRouter);
+
+
 const successLoginUrl = 'http://localhost:5555/#/profile';
 const errorLoginUrl = 'http://localhost:5555/login/error';
 
@@ -88,7 +95,7 @@ app.post('/logout', function(req, res) {
 });
 
 
-// // Middleware to check if user is logged in on every request
+// Middleware to check if user is logged in on every request
 const isAuthenticated = (req, res, next) => {
   if(req.user) {
     console.log('User authenticated', req.user)
@@ -253,6 +260,7 @@ app.get("/api/birdList/", (req, res) => {
       res.sendStatus(404);
     });
 });
+
 
 //GET req for all select birdList data
 app.get('/api/birdList/birdSearch', (req, res) => {
