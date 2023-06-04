@@ -67,9 +67,6 @@ app.use(passport.session());  //passport uses express-session
 app.use('/api/learnedBirds', learnedBirdsRouter);
 
 
-app.use('/api/learnedBirds', learnedBirdsRouter);
-
-
 const successLoginUrl = 'http://localhost:5555/#/profile';
 const errorLoginUrl = 'http://localhost:5555/login/error';
 
