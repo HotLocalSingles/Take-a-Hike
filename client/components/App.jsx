@@ -14,7 +14,6 @@ import PackingList from './PackingList.jsx';
 import Login from './Login.jsx';
 import Story from './Story.jsx';
 import Weather from './Weather.jsx';
-import Story from './Story.jsx';
 import TradingMain from '../components/TradingPost/TradingMain.jsx';
 import TradingBoard from './TradingPost/TradingBoard.jsx';
 import TradingNewPost from './TradingPost/TradingNewPost.jsx';
