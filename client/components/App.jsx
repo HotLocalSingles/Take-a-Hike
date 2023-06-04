@@ -12,6 +12,7 @@ import UserProfile from './UserProfile.jsx';
 import BirdingCheckList from './BirdingCheckList.jsx';
 import PackingList from './PackingList.jsx';
 import Login from './Login.jsx';
+import Story from './Story.jsx';
 
 import TradingMain from '../components/TradingPost/TradingMain.jsx';
 import TradingBoard from './TradingPost/TradingBoard.jsx';
@@ -21,6 +22,16 @@ import TradeDisplay from './TradingPost/TradeDisplay.jsx';
 const App = () => {
 
   const [trailList, setTrailList] = useState([]);
+  const [user, setUser] = useState([]);
+
+  const getUserObj = async () => {
+    try {
+      const response = await axios.get("/user");
+      setUser(response.data);
+    } catch (err) {
+      console.error("Could not GET user at client", err);
+    }
+  };
 
 
   useEffect(() => {
@@ -29,6 +40,7 @@ const App = () => {
       const trails = JSON.parse(localStorage.getItem('TrailList'));
       setTrailList(trails);
     }
+    getUserObj();
   }, []);
   
 
@@ -66,10 +78,13 @@ const App = () => {
         }}
       >
         <Link to='/login'>Login</Link> |{' '}
-        <Link to='/profile'>User Profile</Link> |{' '}
-        <Link to='/quartermaster'>Quartermaster</Link> |{' '}
         <Link to='/trailslist'>Trails List</Link> |{' '}
+        {/* <Link to="/trailprofile/1">Trail Profile</Link> |{' '} */}
+        <Link to='/quartermaster'>Quartermaster</Link> |{' '}
+        {/* <Link to="/packinglist">Packing List</Link> |{" "} */}
         <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
+        <Link to='/stories'>Ghost Stories</Link> |{' '}
+        <Link to='/profile'>User Profile</Link> |{' '}
         <Link to='/tradingpost'>Trading Post</Link> {' '}
       </nav>
       <Routes>
@@ -89,6 +104,7 @@ const App = () => {
         />
         <Route path='quartermaster' element={<Quartermaster />} />
         <Route path='birdingchecklist' element={<BirdingCheckList />} />
+        <Route path='stories' element={<Story id={user._id} />} />
         <Route path='/profile' element={<UserProfile />} />
         <Route path='/profile/:id' element={<UserProfile />} />
         <Route path='tradingpost' element={<TradingMain />} >
