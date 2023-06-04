@@ -96,8 +96,8 @@ const App = () => {
           <Route path='tradingboard' element={<TradingBoard />}/>
           <Route path='createtrade' element={<TradingNewPost />}/>
           <Route path="trade/:postId" element={<TradeDisplay />} />
-          <Route path='weather' element={<Weather />} />
         </Route>
+        <Route path='weather' element={<Weather />} />
       </Routes>
       <Outlet />
     </div>

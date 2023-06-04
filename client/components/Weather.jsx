@@ -17,7 +17,8 @@ const Weather = () => {
   const [currentLocation, setCurrentLocation] = useState('');
   const [weather, setWeather] = useState({});
   const [view, setView] = useState('Daily');
-  let holderObj = {};
+  let holderObjTemp = {};
+  let holderObjWC = {};
 
   const weatherCodeNumbers = {
     0: 'clear skies',
@@ -119,47 +120,68 @@ const windDirectionFunction = (directionNumber) => {
   useEffect(() => {
     fetchWeather(currentLocation);
   }, [currentLocation]);
-  //fetch 14 day weather data
-  const fetch14Weather = async (location) => {
-    if (location.name) {
-      try {
-        const response = await axios
-        .get(`https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&hourly=temperature_2m&forecast_days=14&timezone=auto`);
-        // console.log(response.data);
-        //we need to sort the data that is returned
-        const temp = response.data.hourly.temperature_2m;
-        const time = response.data.hourly.time;
-        let date_temp = [];
-        //loop over the time array and tie the temp index to the time index
-        for (let i = 0; i < time.length; i++) {
-          //put the indexes together
-          date_temp.push([time[i], temp[i]]);
-        }
-        // console.log('date_temp', date_temp)
-        //now we'll iterate over date_temp and sort the date/time values into one value
-        //that will represent the daily temperature
-
-        for (let j = 0; j < date_temp.length; j++) {
-          //each iteration slice the last 6 values from the index 0 string
-          let stringDate = date_temp[j][0].slice(0, -6);
-          if (holderObj[stringDate]) {
-            holderObj[stringDate] += date_temp[j][1];
-          } else {
-            holderObj[stringDate] = date_temp[j][1];
-          }
-        }
-        //we did it! We now have an obj sorted by date and with the values of the
-        //total temperatures for that day. The value at each property needs to be
-        //divided by 24 to obtain an average temperature for the day.
-        // console.log('holderObj', holderObj);
-      } catch (error) {
-        console.error('Failed to fetch 14 day weather data', error);
+  
+ //fetch 14 day weather data
+ const fetch14Weather = async (location) => {
+  if (location.name) {
+    try {
+      const response = await axios
+      .get(`https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&hourly=temperature_2m,weathercode&forecast_days=14&timezone=auto`);
+      // console.log(response.data);
+      //we need to sort the data that is returned
+      const temp = response.data.hourly.temperature_2m;
+      const time = response.data.hourly.time;
+      const weatherCode = response.data.hourly.weathercode;
+      let date_temp = [];
+      let date_wc = [];
+      //loop over the time array and tie the temp index to the time index
+      for (let i = 0; i < time.length; i++) {
+        //put the indexes together
+        date_temp.push([time[i], temp[i]]);
       }
+      //same thing but for weathercodes
+      for (let i = 0; i < time.length; i++) {
+        //put the indexes together
+        date_wc.push([time[i], weatherCode[i]]);
+      }
+      // console.log('date_temp', date_temp)
+      //now we'll iterate over date_temp and sort the date/time values into one value
+      //that will represent the daily temperature
+
+      for (let j = 0; j < date_temp.length; j++) {
+        //each iteration slice the last 6 values from the index 0 string
+        let stringDate = date_temp[j][0].slice(0, -6);
+        if (holderObjTemp[stringDate]) {
+          holderObjTemp[stringDate] += date_temp[j][1];
+        } else {
+          holderObjTemp[stringDate] = date_temp[j][1];
+        }
+      }
+      //we did it! We now have an obj sorted by date and with the values of the
+      //total temperatures for that day. The value at each property needs to be
+      //divided by 24 to obtain an average temperature for the day.
+      // console.log('holderObj', holderObj);
+      //now let's do it again for weathercodes
+      //still needs to be divided by 24
+      for (let p = 0; p < date_wc.length; p++) {
+        //each iteration slice the last 6 values from the index 0 string
+        let stringDate = date_wc[p][0].slice(0, -6);
+        if (holderObjWC[stringDate]) {
+          holderObjWC[stringDate] += date_wc[p][1];
+        } else {
+          holderObjWC[stringDate] = date_wc[p][1];
+        }
+      }
+      // console.log('holderObjWC', holderObjWC);
+    } catch (error) {
+      console.error('Failed to fetch 14 day weather data', error);
     }
-  };
-  useEffect(() => {
-    fetch14Weather(currentLocation);
-  }, [currentLocation]);
+  }
+};
+
+useEffect(() => {
+  fetch14Weather(currentLocation);
+}, [currentLocation]);
 
   return(
     <Container

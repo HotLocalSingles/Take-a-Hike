@@ -20,7 +20,7 @@ const session = require('express-session');
 require('./middleware/auth.js');
 const { cloudinary } = require('./utils/coudinary');
 const { Users } = require('./database/models/users');
-
+const { Trails } = require('./database/models/trails.js');
 // // Import session storage
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
@@ -151,8 +151,7 @@ app.get("/api/trailslist", (req, res) => {
       {
         headers: {
           "X-RapidAPI-Host": "trailapi-trailapi.p.rapidapi.com",
-          "X-RapidAPI-Key":
-            "a27adeb778msh22d13ed248d5359p1d95b8jsnb7239b396c5c",
+          "X-RapidAPI-Key": process.env.X-RapidApi-Key,
         },
       }
     )
@@ -177,47 +176,47 @@ app.get("/api/trailnames", (req, res) => {
   });
 });
 
-//establish database endpoint for favoriteTrail
-app.put('/api/users/updateFavoriteTrail', async (req, res) => {
-  const { userId, favoriteTrail } = req.body;
-  try {
-    const user = await Users.findOne({
-      where: {
-        _id: userId,
-      }
-    });
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
+// //establish database endpoint for favoriteTrail
+// app.put('/api/users/updateFavoriteTrail', async (req, res) => {
+//   const { userId, favoriteTrail } = req.body;
+//   try {
+//     const user = await Users.findOne({
+//       where: {
+//         _id: userId,
+//       }
+//     });
+//     if (!user) {
+//       return res.status(404).send('User not found');
+//     }
 
-    user.favoriteTrail = favoriteTrail;
-    await user.save();
+//     user.favoriteTrail = favoriteTrail;
+//     await user.save();
 
-    res.status(200).send('Favorite trail updated successfully');
-  } catch (err) {
-    res.status(500).send('Server error');
-  }
-});
+//     res.status(200).send('Favorite trail updated successfully');
+//   } catch (err) {
+//     res.status(500).send('Server error');
+//   }
+// });
 
-//endpoint for user
-app.get('/api/users/:userId', async (req, res) => {
-  const { userId } = req.params;
+// //endpoint for user
+// app.get('/api/users/:userId', async (req, res) => {
+//   const { userId } = req.params;
 
-  try {
-    const user = await Users.findOne({
-      where: {
-        _id: userId,
-      }
-    });
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
+//   try {
+//     const user = await Users.findOne({
+//       where: {
+//         _id: userId,
+//       }
+//     });
+//     if (!user) {
+//       return res.status(404).send('User not found');
+//     }
 
-    res.status(200).send(user);
-  } catch (err) {
-    res.status(500).send('Server error');
-  }
-});
+//     res.status(200).send(user);
+//   } catch (err) {
+//     res.status(500).send('Server error');
+//   }
+// });
 
 
 //////////////////////////////////////// Cloudinary routes //////////////////////////////////////
