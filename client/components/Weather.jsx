@@ -6,6 +6,14 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
 /*
 The weather component has 3 parts: The location, live weather details
 and weather warnings. It is designed as a box/container that is interactive for the user.
@@ -17,8 +25,8 @@ const Weather = () => {
   const [currentLocation, setCurrentLocation] = useState('');
   const [weather, setWeather] = useState({});
   const [view, setView] = useState('Daily');
-  let holderObjTemp = {};
-  let holderObjWC = {};
+  const [holderObjTemp, setHolderObjTemp] = useState({});
+  const [holderObjWC, setHolderObjWC] = useState({});
 
   const weatherCodeNumbers = {
     0: 'clear skies',
@@ -131,6 +139,8 @@ const windDirectionFunction = (directionNumber) => {
       const response = await axios
       .get(`https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&hourly=temperature_2m,weathercode&forecast_days=14&timezone=auto`);
       // console.log(response.data);
+      let newHolderObjTemp = {...holderObjTemp};
+      let newHolderObjWC = {...holderObjWC};
       //we need to sort the data that is returned
       const temp = response.data.hourly.temperature_2m;
       const time = response.data.hourly.time;
@@ -154,10 +164,10 @@ const windDirectionFunction = (directionNumber) => {
       for (let j = 0; j < date_temp.length; j++) {
         //each iteration slice the last 6 values from the index 0 string
         let stringDate = date_temp[j][0].slice(0, -6);
-        if (holderObjTemp[stringDate]) {
-          holderObjTemp[stringDate] += date_temp[j][1];
+        if (newHolderObjTemp[stringDate]) {
+          newHolderObjTemp[stringDate] += date_temp[j][1];
         } else {
-          holderObjTemp[stringDate] = date_temp[j][1];
+          newHolderObjTemp[stringDate] = date_temp[j][1];
         }
       }
       //we did it! We now have an obj sorted by date and with the values of the
@@ -169,12 +179,14 @@ const windDirectionFunction = (directionNumber) => {
       for (let p = 0; p < date_wc.length; p++) {
         //each iteration slice the last 6 values from the index 0 string
         let stringDate = date_wc[p][0].slice(0, -6);
-        if (holderObjWC[stringDate]) {
-          holderObjWC[stringDate] += date_wc[p][1];
+        if (newHolderObjWC[stringDate]) {
+          newHolderObjWC[stringDate] += date_wc[p][1];
         } else {
-          holderObjWC[stringDate] = date_wc[p][1];
+          newHolderObjWC[stringDate] = date_wc[p][1];
         }
       }
+      setHolderObjTemp(newHolderObjTemp);
+      setHolderObjWC(newHolderObjWC);
       // console.log('holderObjWC', holderObjWC);
     } catch (error) {
       console.error('Failed to fetch 14 day weather data', error);
@@ -184,13 +196,14 @@ const windDirectionFunction = (directionNumber) => {
 
 useEffect(() => {
   fetch14Weather(currentLocation);
+  console.log(holderObjWC);
 }, [currentLocation]);
 
   return(
     <Container
     sx={{
-      border: '20px solid',
-      borderImageSource: 'linear-gradient(to right, green, blue, purple)',
+      border: '2px solid',
+      borderImageSource: 'grey',
       borderImageSlice: '1',
       height: '650px',
       width: '500px',
@@ -202,10 +215,10 @@ useEffect(() => {
         onChange={ handleLocationChange }
         sx={{
           backgroundColor: 'white',
-          border: '3px solid grey',
+          border: '2px solid grey',
           fontSize: '20px',
           fontWeight: '700',
-          color: 'green'
+          color: 'black'
           }}>
         {locations.map((location, index) => (
           <MenuItem value={location} key={index} sx={{ fontWeight: '900' }}>
@@ -229,47 +242,70 @@ useEffect(() => {
         width: '400px',
         backgroundColor: 'rgba(255, 255, 255, 0.75)',
         overflow: 'auto'
-      }}
-    >
+      }}>
       {view === 'Daily' ? (
-        <>
-          <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
-            Temperature: {weather.temperature} C
-          </Typography>
-          <div style={{ height: '50px' }}></div>
-          <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
-            Wind Direction: {windDirectionFunction(weather.winddirection)}
-          </Typography>
-          <div style={{ height: '50px' }}></div>
-          <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
-            Wind Speed: {weather.windspeed}
-          </Typography>
-          <div style={{ height: '50px' }}></div>
-          <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
-            Weather Code: {weather.weathercode}
-          </Typography>
-        </>
+         <TableContainer component={Paper} style={{ backgroundColor: 'white', marginTop: '30px', marginBottom: '30px' }}>
+         <Table>
+           <TableBody>
+             <TableRow>
+               <TableCell style={{ fontWeight: 900, color: 'black' }}>Temperature:</TableCell>
+               <TableCell style={{ fontWeight: 900, color: 'black' }}>{weather.temperature} °C</TableCell>
+             </TableRow>
+             <TableRow>
+               <TableCell style={{ fontWeight: 900, color: 'black' }}>Wind Direction:</TableCell>
+               <TableCell style={{ fontWeight: 900, color: 'black' }}>{windDirectionFunction(weather.winddirection)}</TableCell>
+             </TableRow>
+             <TableRow>
+               <TableCell style={{ fontWeight: 900, color: 'black' }}>Wind Speed:</TableCell>
+               <TableCell style={{ fontWeight: 900, color: 'black' }}>{weather.windspeed}</TableCell>
+             </TableRow>
+             <TableRow>
+               <TableCell style={{ fontWeight: 900, color: 'black' }}>Weather Code:</TableCell>
+               <TableCell style={{ fontWeight: 900, color: 'black' }}>{weather.weathercode}</TableCell>
+             </TableRow>
+           </TableBody>
+         </Table>
+       </TableContainer>
       ) : (
-        <>
-          {Object.entries(holderObjTemp).length > 0 ? (
-            <>
-            <Typography paragraph style={{ fontWeight: 900, color: 'blue' }}>
-            14 Day Forecast Information:
-          </Typography>
-          {Object.entries(holderObjTemp).map(([property, value]) => (
-            <Typography key={property}>
-              {`${property}: ${value / 24}`}
-            </Typography>
-          ))}
-        </>
+        Object.entries(holderObjTemp).length > 0 ? (
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 300 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center" style={{ fontWeight: 900 }}>Date</TableCell>
+                  <TableCell align="center" style={{ fontWeight: 900 }}>Temperature °C</TableCell>
+                  <TableCell align="center" style={{ fontWeight: 900 }}>Weather</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Object.keys(holderObjTemp).map((date) => {
+                  const avgTemp = holderObjTemp[date] / 24;
+                  const avgWC = holderObjWC[date] / 24;
+                  const keys = Object.keys(weatherCodeNumbers).map(Number);
+                  const closestKey = keys.reduce((prev, curr) =>
+                    Math.abs(curr - avgWC) < Math.abs(prev - avgWC) ? curr : prev
+                  );
+                  const wcDescription = weatherCodeNumbers[closestKey] || 'No data';
+                  return (
+                    <TableRow key={date}>
+                      <TableCell component="th" scope="row">
+                        {date}
+                      </TableCell>
+                      <TableCell align="center">{avgTemp.toFixed(2)}</TableCell>
+                      <TableCell align="center">{wcDescription}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
         ) : (
           <Typography>
             Loading forecast data...
           </Typography>
-        )}
-      </>
-    )}
-  </Box>
+        )
+      )}
+        </Box>
         <Box
         sx={{
           border: '3px solid grey',
@@ -278,8 +314,8 @@ useEffect(() => {
           backgroundColor: 'rgba(255, 255, 255, 0.75)'
         }}>
           <div style={{ height: '30px'}}></div>
-          <Typography paragraph style={{ fontWeight: 900, color: 'purple' }}>
-            Weather Code Description: { weatherCodeNumbers[weather.weathercode] }
+          <Typography paragraph style={{ fontWeight: 900, color: 'black' }}>
+            Weather Description: { weatherCodeNumbers[weather.weathercode] }
           </Typography>
         </Box>
       </Container>
