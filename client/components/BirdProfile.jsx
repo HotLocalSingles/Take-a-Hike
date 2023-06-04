@@ -29,7 +29,7 @@ const BirdProfile = ({ bird, userId, birdSightings, listOfLearnedBirds }) => {
         {listOfLearnedBirds.some((item) => item.birdId === bird._id) && (
           <span className="badge">
             I learned this bird!
-            <img src="https://www.pngkey.com/png/detail/39-393383_birds-branch-twig-animal-badge-round-silhouettes-badge.png" alt="" className="badge-image" />
+            {/* <img style={{ width: "50px", height: "auto" }} src="https://w7.pngwing.com/pngs/875/110/png-transparent-birds-birds-birds-natural-bird-thumbnail.png" alt="" className="badge-image" /> */}
           </span>
         )}
       </div>
@@ -46,6 +46,3 @@ const BirdProfile = ({ bird, userId, birdSightings, listOfLearnedBirds }) => {
 // Export Component
 export default BirdProfile;
 
-// {/*bird.badge*/}
-// {/* <li>{birdSound}</li> */}
-//         {/* <li>{birdImg}</li> */}
