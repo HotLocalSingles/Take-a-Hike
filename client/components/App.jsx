@@ -13,7 +13,8 @@ import BirdingCheckList from './BirdingCheckList.jsx';
 import PackingList from './PackingList.jsx';
 import Login from './Login.jsx';
 import Story from './Story.jsx';
-
+import Weather from './Weather.jsx';
+import Story from './Story.jsx';
 import TradingMain from '../components/TradingPost/TradingMain.jsx';
 import TradingBoard from './TradingPost/TradingBoard.jsx';
 import TradingNewPost from './TradingPost/TradingNewPost.jsx';
@@ -83,6 +84,8 @@ const App = () => {
         <Link to='/quartermaster'>Quartermaster</Link> |{' '}
         {/* <Link to="/packinglist">Packing List</Link> |{" "} */}
         <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
+        <Link to='/tradingpost'>Trading Post</Link> |{' '}
+        <Link to="/weather">Weather</Link> |{' '}
         <Link to='/stories'>Ghost Stories</Link> |{' '}
         <Link to='/profile'>User Profile</Link> |{' '}
         <Link to='/tradingpost'>Trading Post</Link> {' '}
@@ -112,6 +115,7 @@ const App = () => {
           <Route path='createtrade' element={<TradingNewPost />}/>
           <Route path="trade/:postId" element={<TradeDisplay />} />
         </Route>
+        <Route path='weather' element={<Weather />} />
       </Routes>
       <Outlet />
     </div>
