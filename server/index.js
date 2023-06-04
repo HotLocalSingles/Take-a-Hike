@@ -12,6 +12,9 @@ const { BirdSightings } = require("./database/models/birdSightings.js")
 const { PackingLists } = require("./database/models/packingLists");
 const { PackingListItems } = require("./database/models/packingListItems");
 
+const { learnedBirdsRouter } = require('./database/routes/learnedBirdsRouter.js');
+
+// const { default: PackingList } = require("../client/components/PackingList");
 const router = express.Router();
 const session = require('express-session');
 require('./middleware/auth.js');
@@ -59,7 +62,11 @@ app.use(
 app.use(passport.initialize()); //passport is used on every call
 app.use(passport.session());  //passport uses express-session
 
-require('./middleware/auth.js'); //import Passport configuration
+
+
+app.use('/api/learnedBirds', learnedBirdsRouter);
+
+
 const successLoginUrl = 'http://localhost:5555/#/profile';
 const errorLoginUrl = 'http://localhost:5555/login/error';
 
@@ -89,7 +96,7 @@ app.post('/logout', function(req, res) {
 //grab all the users
 app.get('/api/users', )
 
-// // Middleware to check if user is logged in on every request
+// Middleware to check if user is logged in on every request
 const isAuthenticated = (req, res, next) => {
   if(req.user) {
     console.log('User authenticated', req.user)
@@ -201,7 +208,6 @@ app.get('/api/users/:userId', async (req, res) => {
       where: {
         _id: userId,
       }
-      
     });
     if (!user) {
       return res.status(404).send('User not found');
@@ -309,6 +315,7 @@ app.get("/api/birdList/", (req, res) => {
       res.sendStatus(404);
     });
 });
+
 
 //GET req for all select birdList data
 app.get('/api/birdList/birdSearch', (req, res) => {
