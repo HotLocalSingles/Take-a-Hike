@@ -3,6 +3,7 @@
     "cloudify",
     "Cloudinary",
     "weathercode",
-    "weathercodes"
+    "winddirection",
+    "windspeed"
   ]
 }
