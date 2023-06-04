@@ -12,12 +12,9 @@ import UserProfile from './UserProfile.jsx';
 import BirdingCheckList from './BirdingCheckList.jsx';
 import PackingList from './PackingList.jsx';
 import Login from './Login.jsx';
-<<<<<<< HEAD
-import Weather from './Weather.jsx';
-=======
 import Story from './Story.jsx';
-
->>>>>>> 071be0880fc8d100f2fb70483492550273a0d83e
+import Weather from './Weather.jsx';
+import Story from './Story.jsx';
 import TradingMain from '../components/TradingPost/TradingMain.jsx';
 import TradingBoard from './TradingPost/TradingBoard.jsx';
 import TradingNewPost from './TradingPost/TradingNewPost.jsx';
@@ -87,14 +84,11 @@ const App = () => {
         <Link to='/quartermaster'>Quartermaster</Link> |{' '}
         {/* <Link to="/packinglist">Packing List</Link> |{" "} */}
         <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
-<<<<<<< HEAD
         <Link to='/tradingpost'>Trading Post</Link> |{' '}
-        <Link to="/weather">Weather</Link> {' '}
-=======
+        <Link to="/weather">Weather</Link> |{' '}
         <Link to='/stories'>Ghost Stories</Link> |{' '}
         <Link to='/profile'>User Profile</Link> |{' '}
         <Link to='/tradingpost'>Trading Post</Link> {' '}
->>>>>>> 071be0880fc8d100f2fb70483492550273a0d83e
       </nav>
       <Routes>
         <Route
