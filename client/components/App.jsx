@@ -12,7 +12,7 @@ import UserProfile from './UserProfile.jsx';
 import BirdingCheckList from './BirdingCheckList.jsx';
 import PackingList from './PackingList.jsx';
 import Login from './Login.jsx';
-
+import Weather from './Weather.jsx';
 import TradingMain from '../components/TradingPost/TradingMain.jsx';
 import TradingBoard from './TradingPost/TradingBoard.jsx';
 import TradingNewPost from './TradingPost/TradingNewPost.jsx';
@@ -70,7 +70,8 @@ const App = () => {
         <Link to='/quartermaster'>Quartermaster</Link> |{' '}
         <Link to='/trailslist'>Trails List</Link> |{' '}
         <Link to='/birdingchecklist'>Birding Checklist</Link> |{' '}
-        <Link to='/tradingpost'>Trading Post</Link> {' '}
+        <Link to='/tradingpost'>Trading Post</Link> |{' '}
+        <Link to="/weather">Weather</Link> {' '}
       </nav>
       <Routes>
         <Route
@@ -95,6 +96,7 @@ const App = () => {
           <Route path='tradingboard' element={<TradingBoard />}/>
           <Route path='createtrade' element={<TradingNewPost />}/>
           <Route path="trade/:postId" element={<TradeDisplay />} />
+          <Route path='weather' element={<Weather />} />
         </Route>
       </Routes>
       <Outlet />
