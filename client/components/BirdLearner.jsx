@@ -63,7 +63,7 @@ const BirdLearner = ({
 
   const playAudio = (audioUrl) => {
     if (audioPlayer) {
-      audioPlayer.pause();
+      // audioPlayer.pause();
       audioPlayer.currentTime = 0;
       audioPlayer.src = audioUrl;
       // uncomment line below for autoplay.
