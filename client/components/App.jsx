@@ -12,7 +12,6 @@ import UserProfile from './UserProfile.jsx';
 import BirdingCheckList from './BirdingCheckList.jsx';
 import PackingList from './PackingList.jsx';
 import Login from './Login.jsx';
-import Story from './Story.jsx';
 import Weather from './Weather.jsx';
 import TradingMain from '../components/TradingPost/TradingMain.jsx';
 import TradingBoard from './TradingPost/TradingBoard.jsx';
